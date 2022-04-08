@@ -1,85 +1,95 @@
 package com.freight.booking.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freight.booking.model.BookingRequest;
 import com.freight.booking.model.FlightBookingRequest;
-import com.freight.booking.response.JSONResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.freight.booking.service.BookingService;
+import com.freight.booking.service.FlightSearch;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-@SpringBootTest
-@Slf4j
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+@ContextConfiguration(classes = {BookingController.class})
+@ExtendWith(SpringExtension.class)
 class BookingControllerTest {
-
     @Autowired
-    BookingController bookingController;
+    private BookingController bookingController;
 
-    //Success test case for booking request Bimbo
+    @MockBean
+    private BookingService bookingService;
+
+    @MockBean
+    private FlightSearch flightSearch;
+
     @Test
-    void airlineBookingRequestByBimbo() throws ParseException {
-        BookingRequest bookingRequest = BookingRequest.builder()
-                .company_Name("Bimbo")
-                .item_Name("Bread")
-                .kg(400)
-                .airline_Code("UNITED")
-                .flight_Number("AIR-001")
-                .originAirport("Mexico City, Mexico")
-                .destination_Airport("Cancun, Mexico")
-                .flight_Time(new Date(String.valueOf(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse("1/5/2022 10:00"))))
-                .build();
-        ResponseEntity<?> result = bookingController.airlineBookingRequest(bookingRequest);
-        log.info("Booking Result :"+result);
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+    void testAirlineBookingRequest() throws Exception {
+        BookingRequest bookingRequest = new BookingRequest();
+        bookingRequest.setAirline_Code("Airline Code");
+        bookingRequest.setCompany_Name("Company Name");
+        bookingRequest.setDestination_Airport("Destination Airport");
+        bookingRequest.setDiscount_in_Percentage(10.0d);
+        bookingRequest.setFlight_Number("42");
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        bookingRequest.setFlight_Time(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        bookingRequest.setItem_Name("Item Name");
+        bookingRequest.setKg(10.0d);
+        bookingRequest.setOriginAirport("Origin Airport");
+        bookingRequest.setTotal_Fare(10.0d);
+        String content = (new ObjectMapper()).writeValueAsString(bookingRequest);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/book")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.bookingController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
-    //Success test case for booking request Nestle
     @Test
-    void airlineBookingRequestByNestle() throws ParseException {
-        BookingRequest bookingRequest = BookingRequest.builder()
-                .company_Name("Nestle")
-                .item_Name("Chocolates")
-                .kg(400)
-                .airline_Code("AMERICAN")
-                .flight_Number("AIR-003")
-                .originAirport("Puerto Vallarta, Mexico")
-                .destination_Airport("Mexico City, Mexico")
-                .flight_Time(new Date(String.valueOf(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse("3/5/2022 10:00"))))
-                .build();
-        ResponseEntity<?> result = bookingController.airlineBookingRequest(bookingRequest);
-        log.info("Booking Result :"+result);
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+    void testGetCheapestFlight() throws Exception {
+        FlightBookingRequest flightBookingRequest = new FlightBookingRequest();
+        flightBookingRequest.setDestination_airport("Destination airport");
+        flightBookingRequest.setOrigin_airport("Origin airport");
+        flightBookingRequest.setWeight_in_kg(10.0d);
+        String content = (new ObjectMapper()).writeValueAsString(flightBookingRequest);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/get-cheapest-airline")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.bookingController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
-    //Success test case for get a cheap flight
     @Test
-    void getCheapestFlight() {
-        FlightBookingRequest flightBookingRequest = FlightBookingRequest.builder()
-                .origin_airport("Mexico City, Mexico")
-                .destination_airport("Cancun, Mexico")
-                .weight_in_kg(300.00)
-                .build();
-        ResponseEntity<JSONResponse> stats = bookingController.getCheapestFlight(flightBookingRequest);
-        log.info("Cheap Flight Result :"+stats);
-        assertThat(stats.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
-
-    //Success test case for get a fastest flight
-    @Test
-    void getFastestFlight() {
-        FlightBookingRequest flightBookingRequest = FlightBookingRequest.builder()
-                .origin_airport("Mexico City, Mexico")
-                .destination_airport("Cancun, Mexico")
-                .weight_in_kg(300.00)
-                .build();
-        ResponseEntity<JSONResponse> stats = bookingController.getFastestFlight(flightBookingRequest);
-        log.info("Fastest Flight Result :"+stats);
-        assertThat(stats.getStatusCode()).isEqualTo(HttpStatus.OK);
+    void testGetFastestFlight() throws Exception {
+        FlightBookingRequest flightBookingRequest = new FlightBookingRequest();
+        flightBookingRequest.setDestination_airport("Destination airport");
+        flightBookingRequest.setOrigin_airport("Origin airport");
+        flightBookingRequest.setWeight_in_kg(10.0d);
+        String content = (new ObjectMapper()).writeValueAsString(flightBookingRequest);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/get-fastest-airline")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.bookingController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
+
