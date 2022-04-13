@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FlightBookingRequest {
 
-    private String origin_airport;
-    private String destination_airport;
-    private double weight_in_kg;
+    private String originAirport;
+    private String destinationAirport;
+    private double weightInKg;
 }

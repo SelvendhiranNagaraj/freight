@@ -6,23 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
-@Builder
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-public class AirlineDetail {
+@AllArgsConstructor
+public class FreightBookingRequestModel {
+    private String companyName;
+    private String itemName;
+    private double kg;
     private String airlineCode;
     private String flightNumber;
     private String originAirport;
     private String destinationAirport;
 
     @JsonFormat(pattern="yyy-MM-dd HH:mm", timezone="America/Mexico_City")
-    private Date flightTime;
+    private ZonedDateTime flightTime;
 
-    private double priceByKg;
-    private long durationInMinutes;
-    private long capacityKg;
+    private double totalFare;
+    private double discountInPercentage;
 
 }

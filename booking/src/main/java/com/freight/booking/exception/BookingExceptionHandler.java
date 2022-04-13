@@ -16,24 +16,33 @@ public class BookingExceptionHandler {
     @ExceptionHandler(value = BookingRequestException.class)
     public ResponseEntity<Object> handleBookingException(BookingRequestException e)
     {
-        ExceptionResponse exceptionResponse=ExceptionResponse.builder()
-                .message(e.getMessage())
-                .httpStatus(HttpStatus.NOT_FOUND)
-                .time_stamp(ZonedDateTime.now())
+        ExceptionResponse exception = ExceptionResponse.builder()
+                .errorMessage("Data not found")
+                .httpStatusCode(HttpStatus.NOT_FOUND.value())
+                .timeStamp(ZonedDateTime.now())
                 .build();
-        return new ResponseEntity<>(exceptionResponse,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exception,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<Object> handleBadRequest(BadRequestException e)
     {
         ExceptionResponse exceptionResponse = ExceptionResponse.builder()
-                .message(e.getMessage())
-                .httpStatus(HttpStatus.BAD_REQUEST)
-                .time_stamp(ZonedDateTime.now())
+                .errorMessage(e.getMessage())
+                .httpStatusCode(HttpStatus.BAD_REQUEST.value())
+                .timeStamp(ZonedDateTime.now())
                 .build();
         return new ResponseEntity<>(exceptionResponse,HttpStatus.BAD_REQUEST);
     }
 
-
+    @ExceptionHandler(value = AirlineRegisterException.class)
+    public ResponseEntity<Object> airlineRegisterException(AirlineRegisterException e)
+    {
+        ExceptionResponse exception = ExceptionResponse.builder()
+                .errorMessage(e.getMessage())
+                .httpStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .timeStamp(ZonedDateTime.now())
+                .build();
+        return new ResponseEntity<>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

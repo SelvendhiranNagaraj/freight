@@ -13,8 +13,8 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExceptionResponse {
-    private String message;
-    private HttpStatus httpStatus;
-    private ZonedDateTime time_stamp;
+    private String errorMessage;
+    private int httpStatusCode;
+    private ZonedDateTime timeStamp;
 
 }

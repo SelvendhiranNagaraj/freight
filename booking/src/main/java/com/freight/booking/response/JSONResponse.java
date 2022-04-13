@@ -5,12 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
+
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class JSONResponse {
     private String message;
-    private int status_Code;
-    private Object data;
+    private int statusCode;
+    private Object responseData;
+    private ZonedDateTime timeStamp;
 }
