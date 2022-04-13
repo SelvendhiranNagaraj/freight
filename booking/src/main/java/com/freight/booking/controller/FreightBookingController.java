@@ -24,7 +24,7 @@ public class FreightBookingController {
     private FreightBookingService freightBookingService;
 
     @PostMapping(path = "/book",consumes = "application/json",produces = "application/json")
-    public ResponseEntity<JSONResponse> freightBookingRequest(@RequestBody FreightBookingRequestEntity freightBookingRequest)
+    public ResponseEntity<JSONResponse> freightBookingRequest(@RequestBody FreightBookingRequestModel freightBookingRequest)
     {
         try
         {
@@ -51,58 +51,12 @@ public class FreightBookingController {
     @GetMapping(path = "/get-cheapest-airline",consumes = "application/json",produces = "application/json")
     public ResponseEntity<JSONResponse> getCheapestFlight(@RequestBody FlightBookingRequest flightBookingRequest)
     {
-//        AirlineDetail airlineDetail = null;
-//        JSONResponse jsonResponse = new JSONResponse();
-//        try {
-//
-//            airlineDetail = flightSearch.getCheapestFlightByPricePerKg(flightBookingRequest);
-//            if(airlineDetail != null)
-//            {
-//                jsonResponse.setResponseData(airlineDetail);
-//                jsonResponse.setMessage("Cheapest Flight FOUND based on price per KG..!");
-//                jsonResponse.setStatusCode(HttpStatus.OK.value());
-//                return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
-//            }else
-//            {
-//                jsonResponse.setResponseData(airlineDetail);
-//                jsonResponse.setMessage("Flight NOT FOUND due to data mismatch or Airline having less capacity ..!");
-//                jsonResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
-//                return new ResponseEntity<>(jsonResponse, HttpStatus.NOT_FOUND);
-//            }
-//
-//        }catch (Exception e)
-//        {
-//            throw new BookingRequestException("BAD Request on your search criteria..!");
-//        }
-return null;
+        return null;
     }
 
     @GetMapping(path = "/get-fastest-airline",consumes = "application/json",produces = "application/json")
     public ResponseEntity<JSONResponse> getFastestFlight(@RequestBody FlightBookingRequest flightBookingRequest)
     {
-//        AirlineDetail airlineDetail = null;
-//        JSONResponse jsonResponse = new JSONResponse();
-//        try {
-//
-//            airlineDetail = flightSearch.getFastestFlightByDurationInMinutes(flightBookingRequest);
-//            if(airlineDetail != null)
-//            {
-//                jsonResponse.setResponseData(airlineDetail);
-//                jsonResponse.setMessage("Flight FOUND based on fastest route by Duration in minutes..!");
-//                jsonResponse.setStatusCode(HttpStatus.OK.value());
-//                return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
-//            }else
-//            {
-//                jsonResponse.setResponseData(airlineDetail);
-//                jsonResponse.setMessage("Flight NOT FOUND on your search criteria or data mismatch..!");
-//                jsonResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
-//                return new ResponseEntity<>(jsonResponse, HttpStatus.NOT_FOUND);
-//            }
-//
-//        }catch (Exception e)
-//        {
-//            throw new BookingRequestException("BAD Request on your search criteria..!");
-//        }
         return null;
     }
 }

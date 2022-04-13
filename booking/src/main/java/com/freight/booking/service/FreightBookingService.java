@@ -21,16 +21,17 @@ public class FreightBookingService {
     private static final double TOTAL_DISCOUNT_KG=10000.00;
 
 
-    public FreightBookingRequestEntity freightBookingRequest(FreightBookingRequestEntity freightBookingRequest)
+    public FreightBookingRequestEntity freightBookingRequest(FreightBookingRequestModel freightBookingRequest)
     {
+        FreightBookingRequestEntity freightBookingRequestEntity = FreightBookingRequestEntity.builder()
+                .companyName(freightBookingRequest.getCompanyName())
+                .build();
         CompanyRegisterEntity companyRegisterEntity = CompanyRegisterEntity.builder()
                 .companyName(freightBookingRequest.getCompanyName())
                 .year(freightBookingRequest.getFlightTime().getYear())
                 .totalKgBooked(freightBookingRequest.getKg())
-                .freightBooking(freightBookingRequest)
                 .build();
-        freightBookingRequest.setCompany(companyRegisterEntity);
-        return freightBookingRepo.save(freightBookingRequest);
+        return freightBookingRepo.save(freightBookingRequestEntity);
     }
 
 //    //Business logic for When a company has booked more than 10000Kg in the current year gets a 5% discount in the fares.
