@@ -1,7 +1,7 @@
 package com.freight.booking.service;
 
 import com.freight.booking.entity.AirlineRegisterEntity;
-import com.freight.booking.exception.AirlineRegisterException;
+import com.freight.booking.model.AirlineDetail;
 import com.freight.booking.repo.AirlineRegisterRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +19,20 @@ public class AirlineRegisterService {
     private AirlineRegisterRepo airlineRegisterRepo;
 
     @Transactional
-    public AirlineRegisterEntity saveAirline(AirlineRegisterEntity airlineRegisterEntity) {
+    public AirlineRegisterEntity saveAirline(AirlineDetail airlineRequest) {
+        AirlineRegisterEntity airlineRegisterEntity = AirlineRegisterEntity.builder()
+                .airlineCode(airlineRequest.getAirlineCode())
+                .airlineName(airlineRequest.getAirlineCode())
+                .build();
         return airlineRegisterRepo.save(airlineRegisterEntity);
     }
 
     @Transactional
-    public AirlineRegisterEntity updateAirlineById(AirlineRegisterEntity airlineRegisterEntity)
+    public AirlineRegisterEntity updateAirlineById(AirlineDetail airlineRequest)
     {
+        AirlineRegisterEntity airlineRegisterEntity = AirlineRegisterEntity.builder()
+                .airlineCode(airlineRequest.getAirlineCode())
+                .build();
         return airlineRegisterRepo.save(airlineRegisterEntity);
     }
 

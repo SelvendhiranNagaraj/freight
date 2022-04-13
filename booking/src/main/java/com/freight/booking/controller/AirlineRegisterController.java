@@ -2,6 +2,7 @@ package com.freight.booking.controller;
 
 import com.freight.booking.entity.AirlineRegisterEntity;
 import com.freight.booking.exception.AirlineRegisterException;
+import com.freight.booking.model.AirlineDetail;
 import com.freight.booking.response.JSONResponse;
 import com.freight.booking.service.AirlineRegisterService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class AirlineRegisterController {
     private AirlineRegisterService airlineRegisterService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<JSONResponse> saveAirline(@RequestBody AirlineRegisterEntity airlineRegisterEntity)
+    public ResponseEntity<JSONResponse> saveAirline(@RequestBody AirlineDetail airlineRegisterEntity)
     {
         try {
             AirlineRegisterEntity response = airlineRegisterService.saveAirline(airlineRegisterEntity);
@@ -69,7 +70,7 @@ public class AirlineRegisterController {
     }
 
     @PostMapping
-    public AirlineRegisterEntity updateAirline(@RequestBody AirlineRegisterEntity freightBookingRequest)
+    public AirlineRegisterEntity updateAirline(@RequestBody AirlineDetail freightBookingRequest)
     {
         return airlineRegisterService.updateAirlineById(freightBookingRequest);
     }
