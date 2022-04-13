@@ -48,7 +48,6 @@ public class AirlineRegisterService {
         }catch (Exception e)
         {
             log.error(e.getMessage());
-            e.printStackTrace();
 
         }
         return false;
