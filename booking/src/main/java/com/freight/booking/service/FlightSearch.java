@@ -1,15 +1,9 @@
 package com.freight.booking.service;
 
 
-import com.freight.booking.model.AirlineDetail;
-import com.freight.booking.model.FlightBookingRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.util.Comparator;
-import java.util.List;
 
 @Service
 @Slf4j

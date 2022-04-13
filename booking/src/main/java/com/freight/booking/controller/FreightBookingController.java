@@ -1,11 +1,10 @@
 package com.freight.booking.controller;
 
 
-
 import com.freight.booking.entity.FreightBookingRequestEntity;
 import com.freight.booking.exception.AirlineRegisterException;
-import com.freight.booking.model.FreightBookingRequestModel;
 import com.freight.booking.model.FlightBookingRequest;
+import com.freight.booking.model.FreightBookingRequestModel;
 import com.freight.booking.response.JSONResponse;
 import com.freight.booking.service.FreightBookingService;
 import lombok.AllArgsConstructor;
