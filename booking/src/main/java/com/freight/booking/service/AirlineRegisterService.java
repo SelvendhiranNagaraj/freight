@@ -23,6 +23,7 @@ public class AirlineRegisterService {
         return airlineRegisterRepo.save(airlineRegisterEntity);
     }
 
+    @Transactional
     public AirlineRegisterEntity updateAirlineById(AirlineRegisterEntity airlineRegisterEntity)
     {
         return airlineRegisterRepo.save(airlineRegisterEntity);
@@ -38,6 +39,7 @@ public class AirlineRegisterService {
         return airlineRegisterRepo.findAll();
     }
 
+    @Transactional
     public boolean deleteAirlineById(long id)
     {
         try{
@@ -45,9 +47,9 @@ public class AirlineRegisterService {
             return true;
         }catch (Exception e)
         {
-            throw new AirlineRegisterException("Internal Server Error");
+            e.printStackTrace();
         }
-
+         return false;
     }
 
 }

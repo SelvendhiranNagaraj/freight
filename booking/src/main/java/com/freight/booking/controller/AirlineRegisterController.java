@@ -2,7 +2,6 @@ package com.freight.booking.controller;
 
 import com.freight.booking.entity.AirlineRegisterEntity;
 import com.freight.booking.exception.AirlineRegisterException;
-import com.freight.booking.exception.BookingRequestException;
 import com.freight.booking.response.JSONResponse;
 import com.freight.booking.service.AirlineRegisterService;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -49,9 +49,28 @@ public class AirlineRegisterController {
     }
 
     @GetMapping(path = "/get/{id}")
-    public AirlineRegisterEntity getAirline(@PathVariable Long id)
+    public Optional<AirlineRegisterEntity> getAirline(@PathVariable Long id)
     {
-        return airlineRegisterService.getAirlineById(id).orElseThrow(
-                () -> {throw new AirlineRegisterException("Not found");});
+        return airlineRegisterService.getAirlineById(id);
+
+    }
+
+    @GetMapping(path = "/get-all")
+    public List<AirlineRegisterEntity> getAllAirline()
+    {
+        return airlineRegisterService.getAllAirline();
+
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public boolean deleteAirline(@PathVariable long id)
+    {
+        return airlineRegisterService.deleteAirlineById(id);
+    }
+
+    @PostMapping
+    public AirlineRegisterEntity updateAirline(@RequestBody AirlineRegisterEntity freightBookingRequest)
+    {
+        return airlineRegisterService.updateAirlineById(freightBookingRequest);
     }
 }

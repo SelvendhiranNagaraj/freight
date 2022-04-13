@@ -14,9 +14,3 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  jackson:
-    time-zone: "America/Mexico_City"
-freight:
-  date:
-    format: "yyyy-MM-dd HH:mm"
-    time_zone: "America/Mexico_City"
