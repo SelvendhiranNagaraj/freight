@@ -3,6 +3,7 @@ package com.freight.booking.controller;
 
 import com.freight.booking.entity.CompanyRegisterEntity;
 import com.freight.booking.exception.AirlineRegisterException;
+import com.freight.booking.model.AirlineDetail;
 import com.freight.booking.response.JSONResponse;
 import com.freight.booking.service.CompanyRegisterService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class CompanyRegisterController {
     private CompanyRegisterService companyRegisterService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<JSONResponse> saveCompany(@RequestBody CompanyRegisterEntity companyRequest)
+    public ResponseEntity<JSONResponse> saveCompany(@RequestBody AirlineDetail companyRequest)
     {
         try{
             CompanyRegisterEntity companyRegisterEntity = companyRegisterService.saveCompany(companyRequest);
